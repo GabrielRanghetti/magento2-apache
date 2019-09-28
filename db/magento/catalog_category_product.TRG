@@ -1,0 +1,8 @@
+TYPE=TRIGGERS
+triggers='CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_category_product_after_insert AFTER INSERT ON catalog_category_product FOR EACH ROW\nBEGIN\nINSERT IGNORE INTO `catalogrule_product_cl` (`entity_id`) VALUES (NEW.`product_id`);\nINSERT IGNORE INTO `catalog_product_category_cl` (`entity_id`) VALUES (NEW.`product_id`);\nEND' 'CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_category_product_after_update AFTER UPDATE ON catalog_category_product FOR EACH ROW\nBEGIN\nIF (NEW.`entity_id` <=> OLD.`entity_id` OR NEW.`category_id` <=> OLD.`category_id` OR NEW.`product_id` <=> OLD.`product_id` OR NEW.`position` <=> OLD.`position`) THEN INSERT IGNORE INTO `catalogrule_product_cl` (`entity_id`) VALUES (NEW.`product_id`); END IF;\nIF (NEW.`entity_id` <=> OLD.`entity_id` OR NEW.`category_id` <=> OLD.`category_id` OR NEW.`product_id` <=> OLD.`product_id` OR NEW.`position` <=> OLD.`position`) THEN INSERT IGNORE INTO `catalog_product_category_cl` (`entity_id`) VALUES (NEW.`product_id`); END IF;\nEND' 'CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_category_product_after_delete AFTER DELETE ON catalog_category_product FOR EACH ROW\nBEGIN\nINSERT IGNORE INTO `catalogrule_product_cl` (`entity_id`) VALUES (OLD.`product_id`);\nINSERT IGNORE INTO `catalog_product_category_cl` (`entity_id`) VALUES (OLD.`product_id`);\nEND'
+sql_modes=0 0 0
+definers='magento@%' 'magento@%' 'magento@%'
+client_cs_names='utf8' 'utf8' 'utf8'
+connection_cl_names='utf8_general_ci' 'utf8_general_ci' 'utf8_general_ci'
+db_cl_names='latin1_swedish_ci' 'latin1_swedish_ci' 'latin1_swedish_ci'
+created=156970112643 156970112655 156970112668

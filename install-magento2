@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition .
 chmod u+w -R ./var ./vendor ./pub/static ./pub/media ./app/etc &&
     chmod u+x ./bin/magento &&
     php -f ./bin/magento setup:install --base-url=http://localhost/ \
@@ -17,9 +16,7 @@ chmod u+w -R ./var ./vendor ./pub/static ./pub/media ./app/etc &&
         --timezone=America/Chicago \
         --use-rewrites=1 \
         --backend-frontname=admin \
-        --use-sample-data &&
-    mv ./app/etc/env.php ./app/etc/env.original.php
-cp -rv ./env.sample.php ./app/etc/env.php
+        --use-sample-data
 php -f ./bin/magento indexer:set-mode schedule
 cp ~/.composer/auth.json var/composer_home/auth.json &&
     php -f ./bin/magento sampledata:deploy &&

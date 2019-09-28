@@ -1,0 +1,8 @@
+TYPE=TRIGGERS
+triggers='CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_product_bundle_selection_after_insert AFTER INSERT ON catalog_product_bundle_selection FOR EACH ROW\nBEGIN\nINSERT IGNORE INTO `catalogsearch_fulltext_cl` (`entity_id`) VALUES (NEW.`parent_product_id`);\nEND' 'CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_product_bundle_selection_after_update AFTER UPDATE ON catalog_product_bundle_selection FOR EACH ROW\nBEGIN\nIF (NEW.`selection_id` <=> OLD.`selection_id` OR NEW.`option_id` <=> OLD.`option_id` OR NEW.`parent_product_id` <=> OLD.`parent_product_id` OR NEW.`product_id` <=> OLD.`product_id` OR NEW.`position` <=> OLD.`position` OR NEW.`is_default` <=> OLD.`is_default` OR NEW.`selection_price_type` <=> OLD.`selection_price_type` OR NEW.`selection_price_value` <=> OLD.`selection_price_value` OR NEW.`selection_qty` <=> OLD.`selection_qty` OR NEW.`selection_can_change_qty` <=> OLD.`selection_can_change_qty`) THEN INSERT IGNORE INTO `catalogsearch_fulltext_cl` (`entity_id`) VALUES (NEW.`parent_product_id`); END IF;\nEND' 'CREATE DEFINER=`magento`@`%` TRIGGER trg_catalog_product_bundle_selection_after_delete AFTER DELETE ON catalog_product_bundle_selection FOR EACH ROW\nBEGIN\nINSERT IGNORE INTO `catalogsearch_fulltext_cl` (`entity_id`) VALUES (OLD.`parent_product_id`);\nEND'
+sql_modes=0 0 0
+definers='magento@%' 'magento@%' 'magento@%'
+client_cs_names='utf8' 'utf8' 'utf8'
+connection_cl_names='utf8_general_ci' 'utf8_general_ci' 'utf8_general_ci'
+db_cl_names='latin1_swedish_ci' 'latin1_swedish_ci' 'latin1_swedish_ci'
+created=156970113388 156970113397 156970113403
