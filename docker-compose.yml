@@ -1,16 +1,17 @@
-version: '2'
+version: '3.2'
 services:
     apache:
         image: granghetti/magento2-apache
         ports:
-            - '80:80' # web
-            - '9001:9000' # xdebug
+            - "443:443"
+            - "80:80"
+            - "8080:8080"
+            - "9000:9000"
         volumes:
             - ./:/var/www/html
             - ~/.composer:/var/www/.composer
         environment:
-            XDEBUG_CONFIG: 'remote_host=localhost'
-            PHP_IDE_CONFIG: 'serverName=Docker'
+            XDEBUG_REMOTE_HOST: 172.17.0.1
         depends_on:
             - db
         links:

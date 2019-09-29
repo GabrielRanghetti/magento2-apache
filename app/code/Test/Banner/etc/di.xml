@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Test\Banner\Api\Data\BannerInterface" type="Test\Banner\Model\Data\Banners" />
+    <preference for="Test\Banner\Api\BannerRepositoryInterface"
+                type="Test\Banner\Model\ResourceModel\BannerRepository" />
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="test_banner_manage_banners_datasource" xsi:type="string">Test\Banner\Model\ResourceModel\Banners\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Test\Banner\Model\ResourceModel\Banners\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">banners</argument>
+            <argument name="resourceModel" xsi:type="string">Test\Banner\Model\ResourceModel\Banners</argument>
+        </arguments>
+    </virtualType>
+</config>

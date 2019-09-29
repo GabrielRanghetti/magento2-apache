@@ -1,0 +1,10 @@
+<?php
+    /** @var Test\Banner\Block\Banner $block */
+    /** @var Test\Banner\ViewModel\Banner $viewModel */
+    $viewModel = $block->getData('viewModel');
+    $banner = $viewModel->getSingleBanner();
+    $bannerContent = $viewModel->getBannerContent($banner);
+?>
+<div class="home-banner">
+    <?php echo $bannerContent ?>
+</div>

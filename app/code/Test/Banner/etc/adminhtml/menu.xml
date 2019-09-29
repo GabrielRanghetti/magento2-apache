@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Test_Banner::banners" title="Banners" module="Test_Banner" sortOrder="50" resource="Test_Banner::banners"/>
+        <add id="Test_Banner::manage" title="Manage Banners" module="Test_Banner" sortOrder="10" action="test_banner/manage" resource="Test_Banner::manage" parent="Test_Banner::banners"/>
+    </menu>
+</config>
