@@ -9,3 +9,9 @@ docker-compose up -d
 ```
 
 **Web server:** http://localhost/
+
+**Admin** http://localhost/admin/
+
+Admin User: admin
+
+Admin Password: admin123
