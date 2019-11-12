@@ -1,7 +1,7 @@
 version: '3.2'
 services:
     apache:
-        image: granghetti/magento2-apache
+        image: granghetti/magento2-apache:v1.0
         ports:
             - '443:443'
             - '80:80'
