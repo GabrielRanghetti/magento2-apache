@@ -3,9 +3,9 @@ services:
     apache:
         image: granghetti/magento2-apache
         ports:
-            - "443:443"
-            - "80:80"
-            - "8080:8080"
+            - '443:443'
+            - '80:80'
+            - '8080:8080'
         volumes:
             - ./:/var/www/html
             - ~/.composer:/var/www/.composer
@@ -46,10 +46,14 @@ services:
         networks:
             - magento2-network
 
-    elasticsearch:
-        image: elasticsearch:2.4
+    es01:
+        image: elasticsearch:6.8.4
+        container_name: es01
         environment:
-            - cluster.name=docker-cluster
+            - node.name=es01
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=es02,es03
+            - cluster.initial_master_nodes=es01,es02,es03
             - bootstrap.memory_lock=true
             - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
         ulimits:
@@ -57,11 +61,61 @@ services:
                 soft: -1
                 hard: -1
         volumes:
-            - ./elasticsearchdata:/usr/share/elasticsearch/data
+            - esdata01:/usr/share/elasticsearch/data
+            - .:/apps
+        entrypoint: /apps/docker-entrypoint-es-plugins.sh
         ports:
             - 9200:9200
         networks:
             - magento2-network
+    es02:
+        image: elasticsearch:6.8.4
+        container_name: es02
+        environment:
+            - node.name=es02
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=es01,es03
+            - cluster.initial_master_nodes=es01,es02,es03
+            - bootstrap.memory_lock=true
+            - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - esdata02:/usr/share/elasticsearch/data
+            - .:/apps
+        entrypoint: /apps/docker-entrypoint-es-plugins.sh
+        networks:
+            - magento2-network
+    es03:
+        image: elasticsearch:6.8.4
+        container_name: es03
+        environment:
+            - node.name=es03
+            - cluster.name=es-docker-cluster
+            - discovery.seed_hosts=es01,es02
+            - cluster.initial_master_nodes=es01,es02,es03
+            - bootstrap.memory_lock=true
+            - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - esdata03:/usr/share/elasticsearch/data
+            - .:/apps
+        entrypoint: /apps/docker-entrypoint-es-plugins.sh
+        networks:
+            - magento2-network
+
+volumes:
+    esdata01:
+        driver: local
+    esdata02:
+        driver: local
+    esdata03:
+        driver: local
 
 networks:
     magento2-network:
