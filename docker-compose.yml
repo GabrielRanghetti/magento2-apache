@@ -10,7 +10,8 @@ services:
             - ./:/var/www/html
             - ~/.composer:/var/www/.composer
         environment:
-            XDEBUG_REMOTE_HOST: 172.17.0.1
+            XDEBUG_CONFIG: 'remote_host=172.17.0.1 remote_port=9000 remote_enable=1;'
+            PHP_IDE_CONFIG: 'serverName=PHPSTORM'
         depends_on:
             - db
         links:
