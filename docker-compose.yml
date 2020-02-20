@@ -1,7 +1,7 @@
 version: '3.2'
 services:
     apache:
-        image: granghetti/magento2-apache:v1.0
+        image: granghetti/magento2-apache:1.1
         ports:
             - '443:443'
             - '80:80'
@@ -107,6 +107,32 @@ services:
             - esdata03:/usr/share/elasticsearch/data
             - .:/apps
         entrypoint: /apps/docker-entrypoint-es-plugins.sh
+        networks:
+            - magento2-network
+            
+    hub:
+        image: selenium/hub:3.141.59-copernicium
+        ports:
+            - '4444:4444'
+        environment:
+            GRID_BROWSER_TIMEOUT: 3400
+            GRID_TIMEOUT: 3600
+        networks:
+            - magento2-network
+
+    chrome:
+        image: selenium/node-chrome-debug:3.141.59-copernicium
+        ports:
+            - '5900:5900'
+        volumes:
+            - ./selenium/chrome:/selenium/chrome
+        depends_on:
+            - hub
+        environment:
+            HUB_HOST: hub
+            GRID_MAX_SESSION: 50
+            NODE_MAX_SESSION: 50
+            NODE_MAX_INSTANCES: 50
         networks:
             - magento2-network
 
