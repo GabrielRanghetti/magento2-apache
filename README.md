@@ -1,4 +1,4 @@
-# Magento 2 Banner CMS
+# Magento 2
 
 ## Installation
 
